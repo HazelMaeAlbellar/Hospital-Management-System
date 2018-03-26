@@ -1,0 +1,203 @@
+<?php include('connect.php'); ?>
+	<?php
+		if(isset($_GET['edit'])) {
+		$patient_id = $_GET['edit'];
+		$record = mysqli_query($db, "SELECT * FROM patient_form WHERE patient_id = $patient_id");
+		
+		if (count($record) == 1 ) {
+		$n = mysqli_fetch_array($record);
+			$n = mysqli_fetch_array($record);
+            $name= $n['name'];
+            $address= $n['add'];
+            $phone_number = $n['phone_number'];
+            $contact_person= $n['contact_person'];
+			$birthday = $n['birthday'];
+			$date= $n['date'];
+			$physician= $n['physician'];
+			$gender= $n['gender'];
+?>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>hospitalab - index</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="style.css" title="style" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html"><img src="logo1.png" alt="logo"><span class="logo_colour"></span></a></h1>
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li class="selected"><a href="index.php">Laboraties</a></li>
+          <li><a href="examples.php">Results List</a></li>
+          <li><a href="page.php">About Us</a></li>
+          <li><a href="contact.php">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="content_header"></div>
+    <div id="site_content">
+      <div id="content">
+        <div id="button">
+        <h2>Welcome to HospitaLab</h2>
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Take Test</button>
+
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form name="myForm" action="<?php $_SERVER['PHP_SELF'];?>" onsubmit = "return validateForm()" method = "POST">
+    <div class="container" id="profile">
+      <h1>Laboratory form</h1>
+      <fieldset>
+      <p>Please fill in this form:</p>
+      <hr>
+      <label for="Name"><b>Name</b></label>
+      <input type="text" placeholder="Name" name="name">
+        <br><br>
+      <label for="Address"><b>Address: </b></label>
+      <input type="text" placeholder="Address" name="address">
+        <br><br>
+      <label for="phone"><b>Phone Number: </b></label>
+      <input type="text" placeholder="Phone Number" name="phone_number">
+       <br><br>
+      <label for="contact"><b>Contact Person: </b></label>
+      <input type="text" placeholder="Person to be contact" name="contact_person">
+       <br><br>
+      <label for="birth"><b>Birthday: </b></label>
+      <input type="date" placeholder="Birthday" name="birthday">
+       <br><br>
+      <label for="date"><b>Date: </b></label>
+      <input type="date" placeholder="Date of lab test" name="date">  
+      <br><br>
+      <label for="phys"><b>Physician: </b></label>
+      <input type="text" placeholder="ex. Mr..." name="physician">
+        <br><br>
+      <br><br>
+      <label name = "gender">Gender:</label>
+	  <select>
+		<option>Male</option>
+		<option>Female</option>
+	  </select>
+      <br>
+	            <label>
+		<div class="clearfix">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn"><a href = "index.php" >Cancel</a></button>
+        <button id="add">Add</button>
+      </div>
+          </label>
+
+
+      <div id="lab">
+        <div id="button">
+          <h1>Tests:</h1>
+          <fieldset>
+          <h4>Specimen submitted:</h4>
+          <label>
+          <input type = "checkbox" name = "testsample[]" value = "urine">Urine   &nbsp;&nbsp;
+          <input type = "checkbox" name = "testsample[]" value = "blood">Blood   &nbsp;&nbsp;
+          <input type = "checkbox" name = "testsample[]" value = "saliva">Saliva   &nbsp;&nbsp;
+          <input type = "checkbox" name = "testsample[]" value = "sputum">Sputum   &nbsp;&nbsp;
+          <input type = "checkbox" name = "testsample[]" value = "feces">Feces   &nbsp;&nbsp;
+          <input type = "checkbox" name = "testsample[]" value = "semen">Semen  &nbsp;&nbsp;
+          </label>
+			<h4>Hematological Blood Tests:</h4><br>
+          <label>
+          <input type = "checkbox" name = "bloodtest[]" value = "wbc">White blood cell count (WBC)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "rbc">Red blood cell count (RBC)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "platelet">Platelet count<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "hct">Hematocrit red blood cell volume (HCT)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "hb">Hemoglobin concentration (HB)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "diff">Differential white blood count<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "rbc">Red blood cell indices (measurements)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "PT">Prothrombin time (PT)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "PTT">Partial Thromboplastin Time (PTT)<br>
+          <input type = "checkbox" name = "bloodtest[]" value = "INR"> International Normalized Ratio (INR)<br>
+          </label>
+           <h4>Chemical Blood, Urine and Body Fluid Tests:</h4>
+             <label>
+            <input type = "checkbox" name = "cbc[]" value = "urinalysis">Urinalysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "semen analysis">Semen Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "sweat">Sweat Chloride<br>
+            <input type = "checkbox" name = "cbc[]" value = "fetal">Fetal Fibronectin (fFN)<br>
+            <input type = "checkbox" name = "cbc[]" value = "afa">Amniotic Fluid Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "csf">CSF Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "sfa">Synovial Fluid Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "pfa">Pleural Fluid Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "perfa">Pericardial Fluid Analysis<br>
+            <input type = "checkbox" name = "cbc[]" value = "perifa">Peritoneal Fluid Analysis<br>
+            </label>
+ 
+           <h4>Microbiology Laboratory Tests</h4>
+           <label>
+          <input type = "checkbox" name = "mlt[]" value = "AT">Antimicrobial Testing<br>
+          <input type = "checkbox" name = "mlt[]" value = "MT">Metalworking Fluids<br>
+          <input type = "checkbox" name = "mlt[]" value = "LT">Legionella Testing<br>
+          <input type = "checkbox" name = "mlt[]" value = "MycoT">Mycobacteria Testing<br>
+          <input type = "checkbox" name = "mlt[]" value = "BET">Biocide Efficacy Testing<br>
+          <input type = "checkbox" name = "mlt[]" value = "CT">Coliform Testing<br>
+          </label>
+           <h4>Coagulation Laboratory Tests</h4>
+           <label>
+           <input type = "checkbox" name = "clt[]" value = "complete">Complete blood count (CBC)<br>
+           <input type = "checkbox" name = "clt[]" value = "Factor">Factor V assay<br>
+           <input type = "checkbox" name = "clt[]" value = "FL">Fibrinogen level<br>
+           <input type = "checkbox" name = "clt[]" value = "ProT">Prothrombin time (PT or PT-INR)<br>
+           <input type = "checkbox" name = "clt[]" value = "Platelet">Platelet count<br>
+           <input type = "checkbox" name = "clt[]" value = "TT">Thrombin time<br>
+           <input type = "checkbox" name = "clt[]" value = "BT">Bleeding time<br>
+           </label>
+           <h4>Serological Laboratory Tests</h4>
+           <label>
+            <input type = "checkbox" name = "slt[]" value = "AA">Agglutination assay 
+            <input type = "checkbox" name = "slt[]" value = "PreTest">Precipitation test
+            <input type = "checkbox" name = "slt[]" value = "WBT">Western blot test
+            </label>
+			<br><br>
+
+          </form>
+      </div>
+  </form>
+</div>
+</fieldset>
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+function validateForm() {
+    var x = document.forms["myForm"]["name" && "date" && "phys"].value;
+    if (x == "") {
+        alert("Name, Date and Physician must be filled out");
+        return false;
+    }
+}
+</script>
+
+        <h1>See Laboratory Results</h1>
+        <button><a href="examples.php">SEE RESULTS</button>
+
+      </div>
+      </div>
+    </div>
+    <div id="content_footer"></div>
+    <div id="footer">
+      
+    </div>
+  </div>
+</body>
+</html>
